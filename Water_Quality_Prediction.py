@@ -16,10 +16,21 @@ df.shape
 
 df.isnull().sum()
 
+# The fillna() method replaces the NULL values with a specified value.
+# Replace NULL values with mean value
 df.fillna(df.mean(), inplace=True)
+'''
+The fillna() method returns a new DataFrame object unless the 
+inplace parameter is set to True, in that case the fillna() 
+method does the replacing in the original DataFrame instead.
+'''
 df.isnull().sum()
 
+# how much 0 and how much 1
 df.Potability.value_counts()
+# value_counts() function to count the frequency of unique values
+
+# df.Potability.value_counts().plot(kind ='pie')
 
 sns.countplot(df['Potability'])
 plt.show()
