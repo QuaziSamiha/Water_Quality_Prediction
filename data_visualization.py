@@ -45,10 +45,54 @@ if ph_btn:
     sns.distplot(df['ph'])  # it's a normal distribution
     st.pyplot(fig)
 
+hardness_btn = st.button("Distrubution of Hardness")
+if hardness_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Hardness'])
+    st.pyplot(fig)
+
+solids_btn = st.button("Distrubution of Solids")
+if solids_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Solids'])
+    st.pyplot(fig)
+
+chloramines_btn = st.button("Distrubution of Chloramines")
+if chloramines_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Chloramines'])
+    st.pyplot(fig)
+
+sulfate_btn = st.button("Distrubution of Sulfate")
+if sulfate_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Sulfate'])
+    st.pyplot(fig)
+
+conductivity_btn = st.button("Distrubution of Conductivity")
+if conductivity_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Conductivity'])
+    st.pyplot(fig)
+
+toc_btn = st.button("Distrubution of Organic Carbon")
+if toc_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Organic_carbon'])
+    st.pyplot(fig)
+
+
+trihalomethanes_btn = st.button("Distrubution of Trihalomethanes")
+if trihalomethanes_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Trihalomethanes'])
+    st.pyplot(fig)
+
+turbidity_btn = st.button("Distrubution of Turbidity")
+if turbidity_btn:
+    fig = plt.figure(figsize=(13, 8))
+    sns.distplot(df['Turbidity'])
+    st.pyplot(fig)
 
 # display the entire dataset using the hist method
-# fig = plt.figure(figsize=(13, 8))
 df.hist(figsize=(14, 14))
-fig = plt.figure(figsize=(10, 4))
-sns.distplot(data=df)
-st.pyplot(fig)

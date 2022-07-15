@@ -36,9 +36,10 @@ if selected == 'Home':
         sulfate = st.number_input(label='Sulfate', min_value=0.0)
         conductivity = st.number_input(label='Conductivity', min_value=0.0)
         toc = st.number_input(label='Organic Carbon (TOC)', min_value=0.0)
-        trihalomathanes = st.number_input(label='Trihalomathanes', min_value=0.0)
+        trihalomathanes = st.number_input(
+            label='Trihalomathanes', min_value=0.0)
         turbidity = st.number_input(label='Turbidity', min_value=0.0)
-        
+
         submitted = st.form_submit_button(label='Submit')
 
     # ----------- POTABILITY Calculation Home Section--------------------------------------
@@ -54,11 +55,11 @@ if selected == 'Home':
         criterion='gini', min_samples_split=10, splitter='best')
     df.fit(X_train, Y_train)
     prediction = df.predict(X_test)
-    
+
     # actions after clicking submit button
     if submitted:
         res = df.predict([[ph, hardness, solids, chloramines, sulfate,
-                        conductivity, toc, trihalomathanes, turbidity]])[0]
+                           conductivity, toc, trihalomathanes, turbidity]])[0]
         st.write("Potability : ", res)
         if res == 1:
             st.markdown('## Water is drinkable')
@@ -66,9 +67,9 @@ if selected == 'Home':
             st.markdown('## Water is not drinkable')
 
         st.write('pH:', ph, 'Hardness:', hardness, 'Solids:', solids,
-                'Chloramines:', chloramines, 'Sulfate:', sulfate)
+                 'Chloramines:', chloramines, 'Sulfate:', sulfate)
         st.write('Conductivity:', conductivity, 'Organic Carbon) TOC:',
-                toc, 'Trihalomathanes:', trihalomathanes, 'Turbidity:', turbidity)
+                 toc, 'Trihalomathanes:', trihalomathanes, 'Turbidity:', turbidity)
 # --------------------------------------------------- End Home ----------------------------------------------------
 
 # --------------------------------------------------- Start Dataset ---------------------------------------------------
@@ -102,9 +103,83 @@ if selected == "Dataset":
         st.write(df.Potability.value_counts())
 # --------------------------------------------------- End Dataset ---------------------------------------------------
 
+# --------------------------------------------------Start Dataset Visualization ---------------------------------------------
 if selected == "Dataset Visualization":
+    st.header("Dataset Visualization")
     st.markdown('--------------------------')
-    
+
+    potability_btn = st.button('Potability on Dataset')
+    if potability_btn:
+        fig = plt.figure(figsize=(10, 4))
+        sns.countplot(x="Potability", data=df)
+        st.pyplot(fig)
+
+    boxplot_btn = st.button("Outliers")
+    if boxplot_btn:
+        fig = plt.figure(figsize=(15, 8))
+        sns.boxplot(data=df)
+        st.pyplot(fig)
+
+    correlation_btn = st.button("Correlations of Features")
+    if correlation_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.heatmap(df.corr(), annot=True, cmap='terrain')
+        st.pyplot(fig)
+
+    ph_btn = st.button("Distrubution of pH")
+    if ph_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['ph'])
+        st.pyplot(fig)
+
+    hardness_btn = st.button("Distrubution of Hardness")
+    if hardness_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Hardness'])
+        st.pyplot(fig)
+
+    solids_btn = st.button("Distrubution of Solids")
+    if solids_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Solids'])
+        st.pyplot(fig)
+
+    chloramines_btn = st.button("Distrubution of Chloramines")
+    if chloramines_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Chloramines'])
+        st.pyplot(fig)
+
+    sulfate_btn = st.button("Distrubution of Sulfate")
+    if sulfate_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Sulfate'])
+        st.pyplot(fig)
+
+    conductivity_btn = st.button("Distrubution of Conductivity")
+    if conductivity_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Conductivity'])
+        st.pyplot(fig)
+
+    toc_btn = st.button("Distrubution of Organic Carbon")
+    if toc_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Organic_carbon'])
+        st.pyplot(fig)
+
+    trihalomethanes_btn = st.button("Distrubution of Trihalomethanes")
+    if trihalomethanes_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Trihalomethanes'])
+        st.pyplot(fig)
+
+    turbidity_btn = st.button("Distrubution of Turbidity")
+    if turbidity_btn:
+        fig = plt.figure(figsize=(13, 8))
+        sns.distplot(df['Turbidity'])
+        st.pyplot(fig)
+# --------------------------------------------------End Dataset Visualization ---------------------------------------------
 
 # ----------------------------------------------------Start About App ---------------------------------------------------
 if selected == "About App":
@@ -128,7 +203,7 @@ if selected == "About App":
     st.markdown("Pure water is not a good conductor of electric current rather's a good insulator. Increase in icons concentreation enhances the electrical conductivity of water. Generally, the amount of dissolved solids in water determines the electrical conductivity. Electrical conductivity (EC) actually measures the iconic process of a solution that enables it to transmit current. According to WHO  standards, EC value should not exceeded 400 microS/cm.")
     st.markdown('##### 7. Organic_carbon:')
     st.markdown('Total Organic Carbon (TOC) in source waters comes from decaying natural organic matter (NOM) as well as synthetic sources. TOC is measure of the total amount of carbon in organic compounds in pure water. According to US EPA < 2mg/L as TOC in treated/drinking water, and < 4 mg/L in source water which is use for treatment.')
-    st.markdown('##### 8. Trihalomathanes:')
+    st.markdown('##### 8. Trihalomethanes:')
     st.markdown('THMs are chemicals which may be found in water treated with chlorine. The concentration of THMs in drinking water varies according to the level of organic material in the water, the amount of chlorine required to treat the water, and the temperature of the water that is being treated. THM levels up to 80 ppm is considered safe in drinking water.')
     st.markdown('##### 9. Turbidity:')
     st.markdown('The turbidity of water depends on the quality of solid matter present in the suspended state. It is a measure of light emitting properties of water and the test is used to indicate the quality of waste discharge with respect to colloidal matter. The mean turbidity value obtained for Wondo Genel Campus (0.98 NTU) is lower than the WHO recommended value of 5.00 NTU.')
@@ -138,4 +213,3 @@ if selected == "About App":
 
 if selected == "Papers":
     st.header(f"Read Different {selected} in Water Potability")
-
