@@ -23,9 +23,53 @@ with st.sidebar:
         icons=["droplet", 'bar-chart-line',
                'graph-up-arrow', 'clipboard-data', 'newspaper']
     )
-
+# ----------------------------------------------------Start Home ---------------------------------------------
 if selected == 'Home':
     st.title('WATER QUALITY PREDICTION APP')
+    st.markdown('--------------------')
+    #  form section
+    with st.form(key='form1', clear_on_submit=False):
+        ph = st.number_input(label='pH Value', min_value=0.0)
+        hardness = st.number_input(label='Hardness', min_value=0.0)
+        solids = st.number_input(label='Solids (TDS)', min_value=0.0)
+        chloramines = st.number_input(label='Chloramines', min_value=0.0)
+        sulfate = st.number_input(label='Sulfate', min_value=0.0)
+        conductivity = st.number_input(label='Conductivity', min_value=0.0)
+        toc = st.number_input(label='Organic Carbon (TOC)', min_value=0.0)
+        trihalomathanes = st.number_input(label='Trihalomathanes', min_value=0.0)
+        turbidity = st.number_input(label='Turbidity', min_value=0.0)
+        
+        submitted = st.form_submit_button(label='Submit')
+
+    # ----------- POTABILITY Calculation Home Section--------------------------------------
+    # fill the null values using the mean value
+    df.fillna(df.mean(), inplace=True)
+    df.isnull().sum()
+    # Train Decision Tree Classifier and Check Accuracy
+    X = df.drop("Potability", axis=1)
+    Y = df['Potability']
+    X_train, X_test, Y_train, Y_test = train_test_split(
+        X, Y, test_size=0.2, random_state=101, shuffle=True)
+    df = DecisionTreeClassifier(
+        criterion='gini', min_samples_split=10, splitter='best')
+    df.fit(X_train, Y_train)
+    prediction = df.predict(X_test)
+    
+    # actions after clicking submit button
+    if submitted:
+        res = df.predict([[ph, hardness, solids, chloramines, sulfate,
+                        conductivity, toc, trihalomathanes, turbidity]])[0]
+        st.write("Potability : ", res)
+        if res == 1:
+            st.markdown('## Water is drinkable')
+        if res == 0:
+            st.markdown('## Water is not drinkable')
+
+        st.write('pH:', ph, 'Hardness:', hardness, 'Solids:', solids,
+                'Chloramines:', chloramines, 'Sulfate:', sulfate)
+        st.write('Conductivity:', conductivity, 'Organic Carbon) TOC:',
+                toc, 'Trihalomathanes:', trihalomathanes, 'Turbidity:', turbidity)
+# --------------------------------------------------- End Home ----------------------------------------------------
 if selected == "Dataset":
     st.header(f'Visualization of {selected} in Different Ways')
     st.markdown('--------------------')
