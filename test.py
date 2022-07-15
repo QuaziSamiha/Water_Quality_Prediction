@@ -1,9 +1,9 @@
-# import all the required libraries to train the model or visualize the dataset
+# import all the required module to train the model or visualize the dataset
 from unicodedata import numeric
 import streamlit as st  # pip install streamlit
 from streamlit_option_menu import option_menu
 import pandas as pd  # pip install pandas
-import plotly.express as px  # pip install plotly-express
+import plotly_express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -70,6 +70,8 @@ if selected == 'Home':
         st.write('Conductivity:', conductivity, 'Organic Carbon) TOC:',
                 toc, 'Trihalomathanes:', trihalomathanes, 'Turbidity:', turbidity)
 # --------------------------------------------------- End Home ----------------------------------------------------
+
+# --------------------------------------------------- Start Dataset ---------------------------------------------------
 if selected == "Dataset":
     st.header(f'Visualization of {selected} in Different Ways')
     st.markdown('--------------------')
@@ -98,17 +100,13 @@ if selected == "Dataset":
     potability_btn = st.button("Display the Potability")
     if potability_btn:
         st.write(df.Potability.value_counts())
+# --------------------------------------------------- End Dataset ---------------------------------------------------
 
 if selected == "Dataset Visualization":
-    st.markdown('')
-    # select_box = st.selectbox(label='Feature', options='numeric_columns')
-    # sns.displot(datas[select_box])
-    # st.pyplot()
+    st.markdown('--------------------------')
+    
 
-    # sns.countplot(df['Potability'])
-    # fig = plt.show()
-    # st.area_chart(data=fig, width=0, height=0, use_container_width=True)
-
+# ----------------------------------------------------Start About App ---------------------------------------------------
 if selected == "About App":
     st.header(f"Details {selected}")
     st.markdown('##### Context: ')
@@ -136,6 +134,8 @@ if selected == "About App":
     st.markdown('The turbidity of water depends on the quality of solid matter present in the suspended state. It is a measure of light emitting properties of water and the test is used to indicate the quality of waste discharge with respect to colloidal matter. The mean turbidity value obtained for Wondo Genel Campus (0.98 NTU) is lower than the WHO recommended value of 5.00 NTU.')
     st.markdown('##### 10. Potability:')
     st.markdown('It indicates if water is safe for human consumption where 1 means Potable and 0 means Not Potable. (0) Water is not safe for drink and (1) Water is safe to drink.')
+# ----------------------------------------------------End About App ---------------------------------------------------
+
 if selected == "Papers":
     st.header(f"Read Different {selected} in Water Potability")
 
