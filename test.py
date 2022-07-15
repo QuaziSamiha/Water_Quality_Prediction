@@ -95,25 +95,3 @@ if selected == "About App":
 if selected == "Papers":
     st.header(f"Read Different {selected} in Water Potability")
 
-# fill the null values using the mean value
-df.fillna(df.mean(), inplace=True)
-df.isnull().sum()
-
-# Train Decision Tree Classifier and Check Accuracy
-X = df.drop("Potability", axis=1)
-Y = df['Potability']
-X_train, X_test, Y_train, Y_test = train_test_split(
-    X, Y, test_size=0.2, random_state=101, shuffle=True)
-df = DecisionTreeClassifier(
-    criterion='gini', min_samples_split=10, splitter='best')
-st.write(df.fit(X_train, Y_train))
-
-prediction = df.predict(X_test)
-st.write('Accuracy Score: ', accuracy_score(Y_test, prediction)*100)
-st.write('Confusion Matrix: \n', confusion_matrix(Y_test, prediction))
-st.write("Classification Report: \n\n",
-         classification_report(Y_test, prediction))
-
-res = df.predict([[5.735724, 158.318745, 25363.016594, 7.728601,
-                 377.543291, 568.304671, 13.626624, 75.952337, 4.732954]])[0]
-st.write('res: ', res)
