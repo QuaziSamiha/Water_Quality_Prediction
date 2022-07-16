@@ -5,8 +5,6 @@ from streamlit_option_menu import option_menu
 import pandas as pd  # pip install pandas
 import matplotlib.pyplot as plt
 import seaborn as sns
-# import numpy as np
-# from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -35,8 +33,7 @@ if selected == 'Home':
         sulfate = st.number_input(label='Sulfate', min_value=0.0)
         conductivity = st.number_input(label='Conductivity', min_value=0.0)
         toc = st.number_input(label='Organic Carbon (TOC)', min_value=0.0)
-        trihalomathanes = st.number_input(
-            label='Trihalomathanes', min_value=0.0)
+        trihalomathanes = st.number_input(label='Trihalomathanes', min_value=0.0)
         turbidity = st.number_input(label='Turbidity', min_value=0.0)
 
         submitted = st.form_submit_button(label='Submit')
@@ -55,21 +52,18 @@ if selected == 'Home':
 
     # actions after clicking submit button
     if submitted:
-        res = dt.predict([[ph, hardness, solids, chloramines, sulfate,
-                           conductivity, toc, trihalomathanes, turbidity]])[0]
+        res = dt.predict([[ph, hardness, solids, chloramines, sulfate, conductivity, toc, trihalomathanes, turbidity]])[0]
         st.write("Potability : ", res)
         if res == 1:
             st.markdown('## Water is drinkable')
         if res == 0:
             st.markdown('## Water is not drinkable')
 
-        st.write('pH:', ph, 'Hardness:', hardness, 'Solids:', solids,
-                 'Chloramines:', chloramines, 'Sulfate:', sulfate)
-        st.write('Conductivity:', conductivity, 'Organic Carbon) TOC:',
-                 toc, 'Trihalomathanes:', trihalomathanes, 'Turbidity:', turbidity)
+        st.write('pH:', ph, 'Hardness:', hardness, 'Solids:', solids, 'Chloramines:', chloramines, 'Sulfate:', sulfate)
+        st.write('Conductivity:', conductivity, 'Organic Carbon) TOC:', toc, 'Trihalomathanes:', trihalomathanes, 'Turbidity:', turbidity)
 # --------------------------------------------------- End Home ----------------------------------------------------
 
-# --------------------------------------------------- Start Dataset ---------------------------------------------------
+# --------------------------------------------------- Start Dataset Analysis---------------------------------------------------
 if selected == "Dataset Analysis":
     st.header(f'{selected} in Different Ways')
     st.markdown('--------------------')
@@ -98,7 +92,7 @@ if selected == "Dataset Analysis":
     potability_btn = st.button("Display the Potability")
     if potability_btn:
         st.write(df.Potability.value_counts())
-# --------------------------------------------------- End Dataset ---------------------------------------------------
+# --------------------------------------------------- End Dataset Analysis---------------------------------------------------
 
 # --------------------------------------------------Start Dataset Visualization ---------------------------------------------
 if selected == "Dataset Visualization":
@@ -178,18 +172,16 @@ if selected == "Dataset Visualization":
         st.pyplot(fig)
 # --------------------------------------------------End Dataset Visualization ---------------------------------------------
 
+# --------------------------------------------------Start ML Algo ---------------------------------------------------------
 if selected == "ML Algorithms":
     # Replace NULL values with mean value
     df.fillna(df.mean(), inplace=True)
-
     # divide the dataset in independent and dependent features
     # X contains all the independent features except the potibility
     X = df.drop("Potability", axis=1)
     Y = df['Potability']  # Y contains target feature potability
-
     # split the dataset into training and testing using train_test_split() function
-    X_train, X_test, Y_train, Y_test = train_test_split(
-        X, Y, test_size=0.2, random_state=101, shuffle=True)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=101, shuffle=True)
 
     algorithm = st.selectbox(
         "Machine Learning Algorithm to Predict Water Quality:",
@@ -228,6 +220,7 @@ if selected == "ML Algorithms":
         st.write(f'Testing Accuracy : {accuracy_score(Y_test,prediction)*100}')
         st.text(f'Confusion Matrix = \n {confusion_matrix(Y_test,prediction)}')
         st.text(f"Classification Report = \n\n {classification_report(Y_test, prediction)}")
+# -------------------------------------------------- End ML Algo ---------------------------------------------------------
 
 # ----------------------------------------------------Start About App ---------------------------------------------------
 if selected == "About App":
@@ -235,8 +228,7 @@ if selected == "About App":
     st.markdown('##### Context: ')
     st.markdown('Access to safe drinking-water is essential to health, basic human right and a component of effective policy for health protection. This is important as a health and developtment issue at a national, regional and local level. In some regions, it has been shown that investments in water supply and sanitation can yield a net economic benefit, since the reductions in adverse health effects and health care costs outweigh the costs of undertaking the intrventions.')
     st.markdown('##### Content: ')
-    st.markdown(
-        'The water_potability.csv file contains water quality for 3276 different water bodies.')
+    st.markdown('The water_potability.csv file contains water quality for 3276 different water bodies.')
     st.markdown("##### 1. pH value:")
     st.markdown('pH is an important parameter in evaluating the acid-base balance of water. It is also the indicator of acidic or alkaine condition of water status. WHO has recommended maximum limit of pH from 6.5 to 8.5. The current investigation ranges were 6.52-6.83 which are in the range of WHO standards.')
     st.markdown('##### 2. Hardness:')
