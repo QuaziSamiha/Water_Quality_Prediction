@@ -36,10 +36,10 @@ sns.countplot(df['Potability'])
 plt.show()
 
 # display the ph value using the displot
-sns.distplot(df['ph']) # it's a normal distribution
+sns.distplot(df['ph'])  # it's a normal distribution
 plt.show()
 
-# display the entire dataset using the hist method 
+# display the entire dataset using the hist method
 df.hist(figsize=(14, 14))
 plt.show()
 
@@ -55,45 +55,53 @@ plt.show()
 df.boxplot(figsize=(14, 7))
 
 # divide the dataset in independent and dependent features
-X = df.drop("Potability", axis=1) # X contains all the independent features except the potibility
-Y = df['Potability'] # Y contains target feature potability
+# X contains all the independent features except the potibility
+X = df.drop("Potability", axis=1)
+Y = df['Potability']  # Y contains target feature potability
 
 # split the dataset into training and testing using train_test_split() function
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=101, shuffle=True)
+X_train, X_test, Y_train, Y_test = train_test_split(
+    X, Y, test_size=0.2, random_state=101, shuffle=True)
 # test_size is 20%
+# train dataset 80%
 # random_state is basically used to ignore the shuffle everytime
 # train_test_split() returns 4 datasets
 
 # train the model using the decision tree classifier
-df = DecisionTreeClassifier(criterion='gini', min_samples_split=10, splitter='best') # define the DT model
-df.fit(X_train, Y_train) 
+dt = DecisionTreeClassifier(
+    criterion='gini', min_samples_split=10, splitter='best')  # define the DT model
+dt.fit(X_train, Y_train)
 # fit the model (it means learn the parameter from training data)
 
 # check the model that how it is performing on the test data
 # give the test data and check the accuracy on the test dataset and predicted data set
-prediction = df.predict(X_test)
+prediction = dt.predict(X_test)
 print(f'Accuracy Score = {accuracy_score(Y_test,prediction)*100}')
 print(f'Confusion Matrix = \n {confusion_matrix(Y_test,prediction)}')
-print(f"Classification Report = \n {classification_report(Y_test, prediction)}")
+print(
+    f"Classification Report = \n {classification_report(Y_test, prediction)}")
 
 # predict a single row that how the model perform only one row
-res = df.predict([[5.735724, 158.318745, 25363.016594, 7.728601, 377.543291, 568.304671, 13.626624, 75.952337, 4.732954]])[0]
+res = df.predict([[5.735724, 158.318745, 25363.016594, 7.728601,
+                 377.543291, 568.304671, 13.626624, 75.952337, 4.732954]])[0]
 res
 
 
 # apply Hyper Parameter Tuning on DT classifier
-model = DecisionTreeClassifier() # define DT Classifier
+model = DecisionTreeClassifier()  # define DT Classifier
 criterion = ['gini', 'entropy']
 splitter = ['best', 'random']
 min_samples_split = [2, 4, 6, 8, 10, 12, 14]
 # criterion, splitter, min_samples_split are 3 hyper parameters
 
 # created a dictionary of these parameters
-grid = dict(splitter=splitter, criterion=criterion, min_samples_split=min_samples_split)
-# used repeated stratified k fold cross validation 
-cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1) # given 10 splits
+grid = dict(splitter=splitter, criterion=criterion,
+            min_samples_split=min_samples_split)
+# used repeated stratified k fold cross validation
+cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1)  # given 10 splits
 # define grid search cv which is basically used to perform hyper parameter tuning
-grid_search_dt = GridSearchCV(estimator=model, param_grid=grid, n_jobs=-1, cv=cv, scoring='accuracy', error_score=0)
+grid_search_dt = GridSearchCV(
+    estimator=model, param_grid=grid, n_jobs=-1, cv=cv, scoring='accuracy', error_score=0)
 # train the model using the training dataset
 grid_search_dt.fit(X_train, Y_train)
 

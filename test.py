@@ -3,13 +3,14 @@ from unicodedata import numeric
 import streamlit as st  # pip install streamlit
 from streamlit_option_menu import option_menu
 import pandas as pd  # pip install pandas
-import plotly_express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
-from sklearn import datasets
+# import numpy as np
+# from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 df = pd.read_csv("water_potability.csv")  # loading dataset
@@ -18,10 +19,8 @@ with st.sidebar:
     selected = option_menu(
         # menu_title="Select Menu",
         menu_title=None,
-        options=['Home', 'Dataset',
-                 'Dataset Visualization', 'About App', 'Papers'],
-        icons=["droplet", 'bar-chart-line',
-               'graph-up-arrow', 'clipboard-data', 'newspaper']
+        options=['Home', 'Dataset Analysis', 'Dataset Visualization', 'ML Algorithms', 'About App', 'Papers'],
+        icons=["droplet", 'bar-chart-line', 'graph-up-arrow', 'code-square', 'clipboard-data', 'newspaper']
     )
 # ----------------------------------------------------Start Home ---------------------------------------------
 if selected == 'Home':
@@ -49,16 +48,14 @@ if selected == 'Home':
     # Train Decision Tree Classifier and Check Accuracy
     X = df.drop("Potability", axis=1)
     Y = df['Potability']
-    X_train, X_test, Y_train, Y_test = train_test_split(
-        X, Y, test_size=0.2, random_state=101, shuffle=True)
-    df = DecisionTreeClassifier(
-        criterion='gini', min_samples_split=10, splitter='best')
-    df.fit(X_train, Y_train)
-    prediction = df.predict(X_test)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=101, shuffle=True)
+    dt = DecisionTreeClassifier(criterion='gini', min_samples_split=10, splitter='best')
+    dt.fit(X_train, Y_train)
+    prediction = dt.predict(X_test)
 
     # actions after clicking submit button
     if submitted:
-        res = df.predict([[ph, hardness, solids, chloramines, sulfate,
+        res = dt.predict([[ph, hardness, solids, chloramines, sulfate,
                            conductivity, toc, trihalomathanes, turbidity]])[0]
         st.write("Potability : ", res)
         if res == 1:
@@ -73,8 +70,8 @@ if selected == 'Home':
 # --------------------------------------------------- End Home ----------------------------------------------------
 
 # --------------------------------------------------- Start Dataset ---------------------------------------------------
-if selected == "Dataset":
-    st.header(f'Visualization of {selected} in Different Ways')
+if selected == "Dataset Analysis":
+    st.header(f'{selected} in Different Ways')
     st.markdown('--------------------')
 
     dt_btn = st.button("Display Whole Dataset")
@@ -105,7 +102,7 @@ if selected == "Dataset":
 
 # --------------------------------------------------Start Dataset Visualization ---------------------------------------------
 if selected == "Dataset Visualization":
-    st.header("Dataset Visualization")
+    st.header(f"{selected} in Different Ways")
     st.markdown('--------------------------')
 
     potability_btn = st.button('Potability on Dataset')
@@ -180,6 +177,57 @@ if selected == "Dataset Visualization":
         sns.distplot(df['Turbidity'])
         st.pyplot(fig)
 # --------------------------------------------------End Dataset Visualization ---------------------------------------------
+
+if selected == "ML Algorithms":
+    # Replace NULL values with mean value
+    df.fillna(df.mean(), inplace=True)
+
+    # divide the dataset in independent and dependent features
+    # X contains all the independent features except the potibility
+    X = df.drop("Potability", axis=1)
+    Y = df['Potability']  # Y contains target feature potability
+
+    # split the dataset into training and testing using train_test_split() function
+    X_train, X_test, Y_train, Y_test = train_test_split(
+        X, Y, test_size=0.2, random_state=101, shuffle=True)
+
+    algorithm = st.selectbox(
+        "Machine Learning Algorithm to Predict Water Quality:",
+        ('Select Algorithm', 'Decision Tree Classifier','Naive Bayes Classifier', 'Logistic Regression')
+    )
+
+    if algorithm == 'Decision Tree Classifier':
+        # train the model using the decision tree classifier
+        dt = DecisionTreeClassifier(
+            criterion='gini', min_samples_split=10, splitter='best')  # define the DT model
+        dt.fit(X_train, Y_train)
+        # give the test data and check the accuracy on the test dataset and predicted data set
+        prediction = dt.predict(X_test)
+        st.write(f"Training Accuray : {dt.score(X_train, Y_train)*100}")
+        st.write(f'Testing Accuracy : {accuracy_score(Y_test,prediction)*100}')
+        st.text(f'Confusion Matrix = \n {confusion_matrix(Y_test,prediction)}')
+        st.text(f"Classification Report = \n\n {classification_report(Y_test, prediction)}")
+
+    if algorithm == 'Naive Bayes Classifier':
+        gnb = GaussianNB()
+        gnb.fit(X_train, Y_train)
+
+        prediction = gnb.predict(X_test)
+
+        st.write(f"Training Accuray : {gnb.score(X_train, Y_train)*100}")
+        st.write(f'Testing Accuracy : {accuracy_score(Y_test,prediction)*100}')
+        st.text(f'Confusion Matrix = \n {confusion_matrix(Y_test,prediction)}')
+        st.text(f"Classification Report = \n\n {classification_report(Y_test, prediction)}")
+
+    if algorithm == 'Logistic Regression':
+        lr = LogisticRegression()
+        lr.fit(X_train, Y_train)
+        prediction = lr.predict(X_test)
+
+        st.write(f"Training Accuray : {lr.score(X_train, Y_train)*100}")
+        st.write(f'Testing Accuracy : {accuracy_score(Y_test,prediction)*100}')
+        st.text(f'Confusion Matrix = \n {confusion_matrix(Y_test,prediction)}')
+        st.text(f"Classification Report = \n\n {classification_report(Y_test, prediction)}")
 
 # ----------------------------------------------------Start About App ---------------------------------------------------
 if selected == "About App":
