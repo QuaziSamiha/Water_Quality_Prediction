@@ -1,5 +1,5 @@
 # import all the required module to train the model or visualize the dataset
-from unicodedata import numeric
+# from unicodedata import numeric
 import streamlit as st  # pip install streamlit
 from streamlit_option_menu import option_menu
 import pandas as pd  # pip install pandas
@@ -236,9 +236,9 @@ if selected == "About App":
     st.markdown('##### 3. Solids (Total Dissolved Solids- TDS):')
     st.markdown('Water has the ability to dissolbe a wide range of inorganic and some organc minerals or salts such an potassium, calcium, sodium, bicarbonates, chlorides, sulfate etc. These minerals produced unwanted taste and color in appearance of water. This is the important parameter for the use of water. The water with high TDS  value indicated that water is highly mineralized. Desirable limit for TDS  is 500 mg/l and maximum limit is 1000 mg/l which prescrived for drinking purpose.')
     st.markdown('##### 4. Chloramines:')
-    st.markdown('Chlorine and chloramine are the major disinfectants used in public water systems. Chloramines are monst commonly formed when ammonia is added to chlorne to treat drinking waater. chlorine levels up to 4 mg per liter are condidered safe in drinking water.')
+    st.markdown('Chlorine and chloramine are the major disinfectants used in public water systems. Chloramines are monst commonly formed when ammonia is added to chlorine to treat drinking waater. Chlorine levels up to 4 mg per liter are considered safe in drinking water.')
     st.markdown('##### 5. Sulfate:')
-    st.markdown('Sulfates ar naturally occuring substances that are found in minerls, soil and rocks. They are present in ambient air, groundwater plants and food. The principal commercial use of sulfate is in the chemical industry. Sulfate concentration is seawater is about 2700 mg/L. It ranges from 3 to 30 mg/L in most freshwater suppplies, although mush higher concentrations(1000 mg/L) are found in some geographic locations.')
+    st.markdown('Sulfates are naturally occuring substances that are found in minerls, soil and rocks. They are present in ambient air, groundwater plants and food. The principal commercial use of sulfate is in the chemical industry. Sulfate concentration is seawater is about 2700 mg/L. It ranges from 3 to 30 mg/L in most freshwater suppplies, although mush higher concentrations(1000 mg/L) are found in some geographic locations.')
     st.markdown('##### 6. Conductivity:')
     st.markdown("Pure water is not a good conductor of electric current rather's a good insulator. Increase in icons concentreation enhances the electrical conductivity of water. Generally, the amount of dissolved solids in water determines the electrical conductivity. Electrical conductivity (EC) actually measures the iconic process of a solution that enables it to transmit current. According to WHO  standards, EC value should not exceeded 400 microS/cm.")
     st.markdown('##### 7. Organic_carbon:')
