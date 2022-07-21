@@ -17,8 +17,8 @@ with st.sidebar:
     selected = option_menu(
         # menu_title="Select Menu",
         menu_title=None,
-        options=['Home', 'Dataset Analysis', 'Dataset Visualization', 'ML Algorithms', 'About App', 'Papers'],
-        icons=["droplet", 'bar-chart-line', 'graph-up-arrow', 'code-square', 'clipboard-data', 'newspaper']
+        options=['Home', 'Dataset Analysis', 'Dataset Visualization', 'ML Algorithms', 'About App'],
+        icons=["droplet", 'bar-chart-line', 'graph-up-arrow', 'code-square', 'clipboard-data']
     )
 # ----------------------------------------------------Start Home ---------------------------------------------
 if selected == 'Home':
@@ -251,5 +251,3 @@ if selected == "About App":
     st.markdown('It indicates if water is safe for human consumption where 1 means Potable and 0 means Not Potable. (0) Water is not safe for drink and (1) Water is safe to drink.')
 # ----------------------------------------------------End About App ---------------------------------------------------
 
-if selected == "Papers":
-    st.header(f"Read Different {selected} in Water Potability")
